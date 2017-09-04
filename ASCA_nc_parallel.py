@@ -71,7 +71,7 @@ def cloudiness(InputFile,pos):
 
     #    font = ImageFont.truetype("/home/tobias/anaconda3/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/Vera.ttf",imagefont_size)    # Font
 
-    set_scale_factor = 100  # this factor sets the acuracy of the program. By scaling down the image size the program gets faster but also its acuracy dercreases.
+    set_scale_factor = 25  # this factor sets the acuracy of the program. By scaling down the image size the program gets faster but also its acuracy dercreases.
     # It needs to be between 1 and 100. If set 100, then the original size of the image will be used.
     # If set to 50 the image will be scaled down to half its size
     #
@@ -506,7 +506,6 @@ if __name__ == "__main__":
     print("Sorting out files with SZA > 85")
     file_list = []
     pos_list = []
-    # for element in file_list_raw:
     file_elements = Parallel(n_jobs=-1, verbose=5)(delayed(calc_sza)(element) for element in file_list_raw)
 
     for file_element in file_elements:
@@ -522,7 +521,7 @@ if __name__ == "__main__":
     print("Calculating Cloudcoverage")
     result_array = Parallel(n_jobs=-1, verbose=5)(delayed(cloudiness)(file,pos) for file,pos in zip(file_list,pos_list))
 
-    indices = np.where(result_array)[0]
+    indices = range(len(result_array))
     cc = []
     ASCAtime = []
     cloudmask = []
